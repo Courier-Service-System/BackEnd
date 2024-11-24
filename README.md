@@ -13,39 +13,45 @@ A full-stack courier service application built with the PERN stack (PostgreSQL, 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
-- Node.js (v20.17.0 )
-- PostgreSQL (17.0 )
-- npm (10.8.2) 
+- Node.js (v20.17.0)
+- PostgreSQL (17.0)
+- npm (10.8.2)
 
 ## Installation
 
 1. Clone the repository:
-git clone 
-BackEnd : https://github.com/Courier-Service-System/BackEnd.git
+```bash
+# Backend
+git clone https://github.com/Courier-Service-System/BackEnd.git
+```
 
 2. Install backend dependencies:
+```bash
 cd backend
 npm install
-
-
+```
 
 ## Environment Setup
 
 ### Backend (.env)
-•	Create a `.env` file in the backend directory with the following variables:
-NODE_ENV = development
+Create a `.env` file in the backend directory with the following variables:
+```env
+NODE_ENV=development
 PORT=8000
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
 DATABASE_USER=postgres
 DATABASE_PASSWORD=JOE909son
 DATABASE_NAME=my_database
-COOKIE_EXPIRES_TIME= 7
+COOKIE_EXPIRES_TIME=7
 JWT_SECRET=b62de7a6c73751a056d5caebdfc451d859f6cc7b125dc5ce5005cb3b81362036
 JWT_EXPIRES_TIME=7d
+```
 
 ## Database Schema
+
 ### Users Table
+```sql
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
@@ -58,9 +64,10 @@ CREATE TABLE users (
     nic VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
 
 ### Shipments Table
-
+```sql
 CREATE TABLE shipping_creation (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -74,21 +81,25 @@ CREATE TABLE shipping_creation (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+```
+
 ## Running the Application
 
 1. Start the backend server:
-	cd backend
-	npm start
-	The server will start on http://localhost:8000
-
+```bash
+cd backend
+npm start
+```
+The server will start on http://localhost:8000
 
 ## API Documentation
+
 ### Authentication Endpoints
 
 #### POST /api/auth/register
 Register a new user
-Request body: 
-{
+```typescript
+Request body: {
     first_name: string;
     last_name: string;
     email: string;
@@ -97,18 +108,23 @@ Request body:
     telephone_number: string;
     role: string;
     nic: string;
-}```
+}
+```
+
 #### POST /api/auth/login
 Login user
+```typescript
 Request body: {
-    email: string
-    password: string
+    email: string;
+    password: string;
 }
+```
 
 ### Shipment Endpoints
 
 #### POST /api/shipments
 Create a new shipment
+```typescript
 Request body: {
     first_name: string;
     last_name: string;
@@ -118,13 +134,17 @@ Request body: {
     description: string;
     weight: number;
 }
+```
 
 #### GET /api/shipments/:trackingNumber
 Get shipment details
+```typescript
 Response: {
-    id: number
-    trackingNumber: string
-    status: string }
+    id: number;
+    trackingNumber: string;
+    status: string;
+}
+```
 
 #### GET /api/shipments
 Get all user shipments (requires authentication)
@@ -136,39 +156,41 @@ The application includes comprehensive error handling:
 - Backend: Standardized error responses
 
 ## Testing
-For Backend Testing, I used postman to check the end points.
+
+For Backend Testing, we use Postman to check the endpoints.
 
 ## Project Structure
-**backend**
-- config  
-  - .env  
-  - database.ts  
-- controllers  
-  - authController.ts  
-  - shippingCreationController.ts  
-- middlewares  
-  - authMiddleware.ts  
-  - catchAsyncError.ts  
-  - checkRole.ts  
-  - validationSchema.ts  
-- models  
-  - shippingCreationModel.ts  
-  - userModel.ts  
-- routes  
-  - authRoutes.ts  
-  - shippingCreationRoutes.ts  
-- utils  
-  - errorHandler.ts  
-  - jwt.ts  
-- app.ts  
-- server.ts  
 
+```
+backend/
+├── config/
+│   ├── .env
+│   └── database.ts
+├── controllers/
+│   ├── authController.ts
+│   └── shippingCreationController.ts
+├── middlewares/
+│   ├── authMiddleware.ts
+│   ├── catchAsyncError.ts
+│   ├── checkRole.ts
+│   └── validationSchema.ts
+├── models/
+│   ├── shippingCreationModel.ts
+│   └── userModel.ts
+├── routes/
+│   ├── authRoutes.ts
+│   └── shippingCreationRoutes.ts
+├── utils/
+│   ├── errorHandler.ts
+│   └── jwt.ts
+├── app.ts
+└── server.ts
+```
 
 ## Available Scripts
 
-1.  Backend:
--npm start : Start the development sever
-
+### Backend:
+- `npm start`: Start the development server
 
 ## Contributing
 
