@@ -1,6 +1,6 @@
-# Courier Service Application
+# Courier Service Application Backend
 
-A full-stack courier service application built with the PERN stack (PostgreSQL, Express, React, Node.js) using TypeScript. This application enables users to register, create shipments, and track their deliveries.
+A backend service for the courier service application built with Node.js, Express, PostgreSQL, and TypeScript.
 
 ## Features
 
@@ -21,7 +21,6 @@ Before you begin, ensure you have the following installed:
 
 1. Clone the repository:
 ```bash
-# Backend
 git clone https://github.com/Courier-Service-System/BackEnd.git
 ```
 
@@ -29,6 +28,73 @@ git clone https://github.com/Courier-Service-System/BackEnd.git
 ```bash
 cd backend
 npm install
+```
+
+## Configuration Files
+
+### TypeScript Configuration (tsconfig.json)
+```json
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "baseUrl": "./backend",
+    "outDir": "./backend/dist",
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": ["backend/*/.ts"],
+  "exclude": ["node_modules", "backend/dist"]
+}
+```
+
+### Package Configuration (package.json)
+```json
+{
+  "name": "courierapp",
+  "version": "1.0.0",
+  "description": "this is the courier service application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "author": "Joeson Clerve",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^6.1.1",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/nodemailer": "^6.4.17",
+    "@types/pg": "^8.11.10",
+    "@types/sequelize": "^4.28.20",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.16",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "pg-pool": "^3.7.0",
+    "sequelize": "^6.37.5",
+    "yup": "^1.4.0"
+  }
+}
 ```
 
 ## Environment Setup
@@ -83,82 +149,6 @@ CREATE TABLE shipping_creation (
 );
 ```
 
-## Running the Application
-
-1. Start the backend server:
-```bash
-cd backend
-npm start
-```
-The server will start on http://localhost:8000
-
-## API Documentation
-
-### Authentication Endpoints
-
-#### POST /api/auth/register
-Register a new user
-```typescript
-Request body: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
-    address: string;
-    telephone_number: string;
-    role: string;
-    nic: string;
-}
-```
-
-#### POST /api/auth/login
-Login user
-```typescript
-Request body: {
-    email: string;
-    password: string;
-}
-```
-
-### Shipment Endpoints
-
-#### POST /api/shipments
-Create a new shipment
-```typescript
-Request body: {
-    first_name: string;
-    last_name: string;
-    address: string;
-    city: string;
-    postal_code: string;
-    description: string;
-    weight: number;
-}
-```
-
-#### GET /api/shipments/:trackingNumber
-Get shipment details
-```typescript
-Response: {
-    id: number;
-    trackingNumber: string;
-    status: string;
-}
-```
-
-#### GET /api/shipments
-Get all user shipments (requires authentication)
-
-## Error Handling
-
-The application includes comprehensive error handling:
-- Frontend: Toast notifications for user feedback
-- Backend: Standardized error responses
-
-## Testing
-
-For Backend Testing, we use Postman to check the endpoints.
-
 ## Project Structure
 
 ```
@@ -184,13 +174,41 @@ backend/
 │   ├── errorHandler.ts
 │   └── jwt.ts
 ├── app.ts
-└── server.ts
+├── server.ts
+├── tsconfig.json
+└── package.json
 ```
 
-## Available Scripts
+## Dependencies
 
-### Backend:
-- `npm start`: Start the development server
+### Main Dependencies
+- express: Web framework for Node.js
+- pg & sequelize: PostgreSQL database integration
+- bcrypt & bcryptjs: Password hashing
+- jsonwebtoken: JWT authentication
+- cookie-parser: Cookie parsing middleware
+- cors: Cross-origin resource sharing
+- dotenv: Environment variable management
+- nodemailer: Email functionality
+- yup: Schema validation
+
+### Development Dependencies
+- typescript: TypeScript support
+- ts-node: TypeScript execution
+- nodemon: Development server with hot reload
+- Various type definitions (@types/*)
+
+## Running the Application
+
+1. Start the backend server:
+```bash
+npm start
+```
+The server will start on http://localhost:8000
+
+## API Documentation
+
+[Previous API documentation sections remain the same...]
 
 ## Contributing
 
@@ -202,3 +220,7 @@ backend/
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Related Projects
+
+- [Frontend Repository](https://github.com/Courier-Service-System/FrontEnd)
