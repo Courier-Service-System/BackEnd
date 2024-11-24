@@ -1,10 +1,12 @@
-export interface User {
-  id?: number;
+export interface users {
+  id: number;
   first_name: string;
   last_name: string;
-  address: string;
   email: string;
-  telephone_number: string;
   password: string;
+  address: string;
+  telephone_number: string;
+  role: string;
+  nic: string;
   created_at?: Date;
 }

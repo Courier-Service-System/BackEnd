@@ -1,14 +1,22 @@
-import express, { Request, Response } from "express";
-import pool from "./config/database";
-import { User } from "./models/userModel";
-import auth from "./routes/authRoutes";
+import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import authRoutes from "./routes/authRoutes";
+import shippingCreation from "./routes/shippingCreationRoutes";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(cookieParser());
 
-// Create a new user
-app.use("/api/v1/", auth);
+app.use("/api/v1", authRoutes);
+app.use("/api/v1", shippingCreation);
 
 export default app;

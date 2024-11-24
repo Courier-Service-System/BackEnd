@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { User } from "../models/userModel"; // Adjust import path as needed
+import { users } from "../models/userModel"; // Adjust import path as needed
 import jwt from "jsonwebtoken";
 
 interface TokenOptions {
@@ -7,7 +7,7 @@ interface TokenOptions {
   httpOnly: boolean;
 }
 
-export const sendToken = (user: User, statusCode: number, res: Response) => {
+export const sendToken = (user: users, statusCode: number, res: Response) => {
   // Create JWT token
   const token = generateToken(user);
 
@@ -23,13 +23,12 @@ export const sendToken = (user: User, statusCode: number, res: Response) => {
   res.status(statusCode).cookie("token", token, options).json({
     success: true,
     token,
-    user,
+    role: user.role, // Include role in response
   });
 };
 
-// Helper function to generate token
-function generateToken(user: User): string {
-  return jwt.sign({ id: user.id }, process.env.JWT_SECRET || "", {
-    expiresIn: process.env.JWT_EXPIRES_TIME || "1d",
+function generateToken(user: users): string {
+  return jwt.sign({ id: user.id }, process.env.JWT_SECRET || "default_secret", {
+    expiresIn: process.env.JWT_EXPIRES_TIME || "1h",
   });
 }

@@ -1,19 +1,18 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../models/userModel";
+import pool from "../config/database";
+import { users } from "../models/userModel";
 import { ErrorHandler } from "../utils/errorHandler";
 import { catchAsyncError } from "./catchAsyncError";
 
-// Extend Request interface to include user
 declare global {
   namespace Express {
     interface Request {
-      user?: User;
+      user?: users;
     }
   }
 }
 
-// Check if user is authenticated
 export const isAuthenticatedUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.token;
@@ -24,12 +23,10 @@ export const isAuthenticatedUser = catchAsyncError(
       );
     }
 
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "") as {
       id: number;
     };
 
-    // Find user by ID (you'll need to implement this)
     const user = await findUserById(decoded.id);
 
     if (!user) {
@@ -41,9 +38,26 @@ export const isAuthenticatedUser = catchAsyncError(
   }
 );
 
-// Helper function to find user by ID
-async function findUserById(id: number): Promise<User | null> {
-  // Implement user finding logic in your database
-  // This is a placeholder - replace with actual database query
-  throw new Error("Not implemented");
+async function findUserById(id: number): Promise<users | null> {
+  try {
+    const result = await pool.query<users>(
+      "SELECT * FROM users WHERE id = $1",
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    return result.rows[0];
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error("Error finding user by ID:", err.message);
+    } else {
+      console.error("Unknown error occurred while finding user by ID");
+    }
+    throw new Error("Database query failed");
+  }
 }
+
+export { catchAsyncError };
